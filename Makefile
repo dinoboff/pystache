@@ -71,7 +71,7 @@ upload3: clean MANIFEST.in
 
 MANIFEST.in:
 	@echo "Updating MANIFEST.in..."
-	$(GIT) ls-files --exclude=".git*" | sed -e 's/^/include /g' > $(srcdir)/MANIFEST.in
+	$(GIT) ls-files --exclude=".git*" | sed -e 's/^/include /g' > MANIFEST.in
 	@echo
 
 .PHONY: MANIFEST.in tag clean

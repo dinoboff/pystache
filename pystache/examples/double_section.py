@@ -1,7 +1,9 @@
+import os
+
 import pystache
 
 class DoubleSection(pystache.View):
-    template_path = 'examples'
+    template_path = os.path.dirname(__file__)
 
     def t(self):
         return True

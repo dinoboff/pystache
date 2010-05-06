@@ -3,14 +3,14 @@
 import unittest
 import pystache
 
-from examples.comments import Comments
-from examples.double_section import DoubleSection
-from examples.escaped import Escaped
-from examples.unescaped import Unescaped
-from examples.template_partial import TemplatePartial
-from examples.delimiters import Delimiters
-from examples.unicode_output import UnicodeOutput
-from examples.unicode_input import UnicodeInput
+from pystache.examples.comments import Comments
+from pystache.examples.double_section import DoubleSection
+from pystache.examples.escaped import Escaped
+from pystache.examples.unescaped import Unescaped
+from pystache.examples.template_partial import TemplatePartial
+from pystache.examples.delimiters import Delimiters
+from pystache.examples.unicode_output import UnicodeOutput
+from pystache.examples.unicode_input import UnicodeInput
 
 class TestView(unittest.TestCase):
     def test_comments(self):

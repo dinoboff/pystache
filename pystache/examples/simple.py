@@ -1,7 +1,9 @@
+import os
+
 import pystache
 
 class Simple(pystache.View):
-    template_path = 'examples'
+    template_path = os.path.dirname(__file__)
 
     def thing(self):
         return "pizza"

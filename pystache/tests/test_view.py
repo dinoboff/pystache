@@ -1,10 +1,10 @@
+import os
 import unittest
-import pystache
 
-from examples.simple import Simple
-from examples.complex_view import ComplexView
-from examples.lambdas import Lambdas
-from examples.inverted import Inverted
+from pystache.examples.simple import Simple
+from pystache.examples.complex_view import ComplexView
+from pystache.examples.lambdas import Lambdas
+from pystache.examples.inverted import Inverted
 
 class TestView(unittest.TestCase):
     def test_basic(self):
@@ -20,13 +20,12 @@ class TestView(unittest.TestCase):
         self.assertEquals(view.render(), "Hi world!")
 
     def test_template_load_from_multiple_path(self):
-        path = Simple.template_path
-        Simple.template_path = ('examples/nowhere','examples',)
-        try:
-            view = Simple(thing='world')
-            self.assertEquals(view.render(), "Hi world!")
-        finally:
-            Simple.template_path = path
+        view = Simple(thing='world')
+        view.template_path = [
+            os.path.join(view.template_path, 'nowhere'),
+            view.template_path
+            ]
+        self.assertEquals(view.render(), "Hi world!")
 
     def test_template_load_from_multiple_path_fail(self):
         path = Simple.template_path

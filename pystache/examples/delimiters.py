@@ -1,7 +1,9 @@
+import os
+
 import pystache
 
 class Delimiters(pystache.View):
-    template_path = 'examples'
+    template_path = os.path.dirname(__file__)
 
     def first(self):
         return "It worked the first time."
