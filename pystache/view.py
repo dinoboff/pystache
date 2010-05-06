@@ -1,6 +1,7 @@
 from pystache import Template
 import os.path
 import re
+import codecs
 
 class View(object):
     # Path where this view's template(s) live
@@ -72,11 +73,13 @@ class View(object):
 
     
     def _load_template(self):
-        f = open(self.template_file, 'r')
+        if self.template_encoding:
+            f = codecs.open(self.template_file, encoding=self.template_encoding)
+        else:
+            f = open(self.template_file, 'r')
+
         try:
             template = f.read()
-            if self.template_encoding:
-                template = unicode(template, self.template_encoding)
         finally:
             f.close()
         return template
