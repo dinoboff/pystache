@@ -1,9 +1,13 @@
 #!/usr/bin/env python
 
+# Bootstrap installation of Distribute
+import distribute_setup
+distribute_setup.use_setuptools()
+
 import os
 import sys
 
-from distutils.core import setup
+from setuptools import setup
 
 def publish():
     """Publish to Pypi"""
