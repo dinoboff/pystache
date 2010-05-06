@@ -49,10 +49,10 @@ class Template(object):
         """Compiles our section and tag regular expressions."""
         tags = { 'otag': re.escape(self.otag), 'ctag': re.escape(self.ctag) }
 
-        section = r"%(otag)s\#([^\}]*)%(ctag)s\s*(.+?)\s*%(otag)s/\1%(ctag)s"
+        section = r"%(otag)s[\#|^]([^\}]*)%(ctag)s\s*(.+?)\s*%(otag)s/\1%(ctag)s"
         self.section_re = re.compile(section % tags, re.M|re.S)
 
-        tag = r"%(otag)s(#|=|!|>|\{)?(.+?)\1?%(ctag)s+"
+        tag = r"%(otag)s(#|=|&|!|>|\{)?(.+?)\1?%(ctag)s+"
         self.tag_re = re.compile(tag % tags)
 
     def render_sections(self, template, context):
@@ -67,13 +67,18 @@ class Template(object):
 
             it = context.get(section_name, None)
             replacer = ''
-            if it and not hasattr(it, '__iter__'):
-                replacer = inner
+            if it and hasattr(it, '__call__'):
+                replacer = it(inner)
+            elif it and not hasattr(it, '__iter__'):
+                if section[2] != '^':
+                    replacer = inner
             elif it:
                 insides = []
                 for item in it:
                     insides.append(self.render(inner, item))
                 replacer = ''.join(insides)
+            elif not it and section[2] == '^':
+                replacer = inner
 
             template = template.replace(section, replacer)
 
@@ -108,6 +113,7 @@ class Template(object):
         return ''
 
     @modifier('{')
+    @modifier('&')
     def render_unescaped(self, tag_name=None, context=None):
         """Render a tag without escaping it."""
         return unicode(context.get(tag_name, ''))
